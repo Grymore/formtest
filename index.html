@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>SAMPEL TESTING</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script language="JavaScript" type="text/javascript" src="https://staging.doku.com/dateformat.js"></script>
+    <script language="JavaScript" type="text/javascript" src="https://staging.doku.com/sha-1.js"></script>
+    <script language="javascript" type="text/javascript">
+      function getRequestDateTime() {
+        var now = new Date();
+
+        document.MerchatPaymentPage.REQUESTDATETIME.value = dateFormat(now, "yyyymmddHHMMss");  
+      }
+
+      function randomString(STRlen) {
+        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+        var string_length = STRlen;
+        var randomstring = '';
+        for (var i=0; i<string_length; i++) {
+          var rnum = Math.floor(Math.random() * chars.length);
+          randomstring += chars.substring(rnum,rnum+1);
+        }
+
+        return randomstring;
+
+      }
+
+      function genInvoice() { 
+        document.MerchatPaymentPage.TRANSIDMERCHANT.value = randomString(12);
+      }
+
+      function genSessionID() { 
+        document.MerchatPaymentPage.SESSIONID.value = randomString(20);
+      }
+
+      function genBookingCode() { 
+        document.MerchatPaymentPage.BOOKINGCODE.value = randomString(6);
+      }
+
+      function getWords() {
+
+        var msg = document.MerchatPaymentPage.AMOUNT.value + document.MerchatPaymentPage.MALLID.value + document.MerchatPaymentPage.SHAREDKEY.value + document.MerchatPaymentPage.TRANSIDMERCHANT.value;
+        
+        document.MerchatPaymentPage.WORDS.value = SHA1(msg);  
+      }
+
+      </script>
+  </head>
+  <body>
+    <div class="mx-auto container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <form method="post" action="https://pay.doku.com/Suite/Receive" id="MerchatPaymentPage" name="MerchatPaymentPage">
+            <h1>FORM TESTING PROD</h1>
+            <table class="table">
+
+              <tr hidden>
+                <td>BASKET</td>
+                <td><input name="BASKET" type="text" id="BASKET" value="Item 1,10000.00,1,10000.00" /></td>
+              </tr>
+              <tr hidden>
+                <td>MALLID</td>
+                <td><input name="MALLID" type="text" id="MALLID" value="9971"  /></td>
+              </tr>
+              <tr hidden>
+                <td>CHAINMERCHANT</td>
+                <td><input name="CHAINMERCHANT" type="text" id="CHAINMERCHANT" value="NA"  /></td>
+              </tr>
+              <tr hidden>
+                <td>CURRENCY</td>
+                <td><input name="CURRENCY" type="text" id="CURRENCY" value="360" maxlength="3" /></td>
+              </tr>
+              <tr hidden>
+                <td>PURCHASECURRENCY</td>
+                <td><input name="PURCHASECURRENCY" type="text" id="PURCHASECURRENCY" value="360" maxlength="3" /></td>
+              </tr>
+              <tr >
+                <td>AMOUNT</td>
+                <td><input name="AMOUNT" type="text" id="AMOUNT" value="10000.00"  /></td>
+              </tr>
+              <tr >
+                <td>PURCHASEAMOUNT</td>
+                <td><input name="PURCHASEAMOUNT" type="text" id="PURCHASEAMOUNT" value="10000.00"  /></td>
+              </tr>
+              <tr hidden>
+                <td >TRANSIDMERCHANT</td>
+                <td><input name="TRANSIDMERCHANT" type="text" id="TRANSIDMERCHANT"  /></td>
+              </tr>
+              <tr>
+                <td >INSTALLMENT_ACQUIRER</td>
+                <td>
+                  <select id="INSTALLMENT_ACQUIRER" name="INSTALLMENT_ACQUIRER">
+                    <option value="">-</option>
+                    <option value="400">BCA</option>
+                  </select>
+                </td>
+              </tr>
+              <tr >
+                <td >TENOR</td>
+                <td>
+                  <select id="TENOR" name="TENOR">
+                    <option value="">-</option>
+                    <option value="03">03</option>
+                    <option value="06">06</option>
+                    <option value="12">12</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td >PROMOID</td> 
+                <td>
+                  <select id="PROMOID" name="PROMOID">--> harus sama dgn TENOR
+                    <option value="">-</option>
+                    <option value="003">03</option>
+                    <option value="006">06</option>
+                    <option value="012">12</option>
+                  </select>
+                </td>
+              </tr>
+              <tr hidden>
+                <td>SHAREDKEY</td>
+                <td><input name="SHAREDKEY" type="text" id="SHAREDKEY" value="VNcde7Qk9vh0"  maxlength="12"/></td>
+              </tr>
+              <tr>
+                <td>WORDS</td>
+                <td><input type="text" id="WORDS" name="WORDS"  size="40"  />&nbsp;&nbsp;<input type="button" value="Generate WORDS" onClick="getWords();">&nbsp;</td>
+              </tr>
+              <tr hidden>
+                <td >REQUESTDATETIME</td>
+                <td><input name="REQUESTDATETIME" type="text" id="REQUESTDATETIME"  maxlength="14" />
+                  (YYYYMMDDHHMMSS)</td>
+              </tr>
+
+              <tr hidden>
+                <td>SESSIONID</td>
+                <td><input type="text" id="SESSIONID" name="SESSIONID" /></td>
+              </tr>
+              <tr hidden>
+                <td>PAYMENTCHANNEL</td>
+                <td><input type="text" id="PAYMENTCHANNEL" name="PAYMENTCHANNEL" value="" /> --> kosongkan jika ingin menampilkan semua payment channel yang digunakan</td>
+              </tr>
+              <tr hidden>
+                <td>EMAIL</td>
+                <td><input name="EMAIL" type="text" id="EMAIL" value="test@doku.com"  /></td>
+              </tr>
+              <tr hidden>
+                <td>NAME</td>
+                <td><input name="NAME" type="text" id="NAME" value="dokutest"  maxlength="50" /></td>
+              </tr>
+              <tr hidden>
+                <td>ADDRESS</td>
+                <td><input name="ADDRESS" type="text" id="ADDRESS" value="Jl. Sudirman kav 232323"  maxlength="50" /></td>
+              </tr>
+              <tr hidden>
+                <td>COUNTRY</td>
+                <td><input name="COUNTRY" type="text" id="COUNTRY" value="360"  maxlength="50" /></td>
+              </tr>
+              <tr hidden>
+                <td>STATE</td>
+                <td><input name="STATE" type="text" id="STATE" value="Jakarta"  maxlength="50" /></td>
+              </tr>
+              <tr hidden>
+                <td>CITY</td>
+                <td><input name="CITY" type="text" id="CITY" value="JAKARTA TIMUR"  maxlength="50" /></td>
+              </tr>
+              <tr hidden>
+                <td>PROVINCE</td>
+                <td><input name="PROVINCE" type="text" id="PROVINCE" value="JAKARTA"  maxlength="50" /></td>
+              </tr>
+              <tr hidden>
+                <td>ZIPCODE</td>
+                <td><input name="ZIPCODE" type="text" id="ZIPCODE" value="67153" maxlength="10" /></td>
+              </tr>
+              <tr hidden>
+                <td>HOMEPHONE</td>
+                <td><input name="HOMEPHONE" type="text" id="HOMEPHONE" value="02123232323"  maxlength="20" /></td>
+              </tr>
+              <tr hidden>
+                <td>MOBILEPHONE</td>
+                <td><input name="MOBILEPHONE" type="text" id="MOBILEPHONE" value="0215150555"  maxlength="20" /></td>
+              </tr>
+              <tr hidden>
+                <td>WORKPHONE</td>
+                <td><input name="WORKPHONE" type="text" id="WORKPHONE" value="0215150555"  maxlength="20" /></td>
+              </tr>
+              <tr hidden>
+                <td>BIRTHDATE</td>
+                <td><input name="BIRTHDATE" type="text" id="BIRTHDATE" value="19710101"  maxlength="8" /></td>
+              </tr>
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
+            </table>
+              <input name="submit" type="submit" class="bt_submit" id="submit" value="SUBMIT" />
+              <br /><br />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script language="javascript" type="text/javascript">
+    genInvoice();
+    getWords();
+    getRequestDateTime();
+    genSessionID();
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
